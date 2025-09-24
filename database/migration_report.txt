@@ -1,0 +1,34 @@
+
+LEGAL CASES DATABASE MIGRATION REPORT
+====================================
+Date: 2025-09-24 17:50:56
+
+MIGRATION STATISTICS:
+====================
+Total Old Cases: 6,166
+Successfully Migrated: 5,917
+Sessions Created: 647
+Notes Generated: 5,890
+Skipped Cases: 50
+Errors: 51
+
+SUCCESS RATE: 96.0%
+
+CASE TYPE STANDARDIZATION:
+========================
+Original Types: ~53 variants
+Standardized Types: 15
+
+ERRORS ENCOUNTERED:
+==================
+- Error migrating case 980: UNIQUE constraint failed: cases.case_number
+- Error migrating case 984: UNIQUE constraint failed: cases.case_number
+- Error migrating case 1114: UNIQUE constraint failed: cases.case_number
+- Error migrating case 1132: UNIQUE constraint failed: cases.case_number
+- Error migrating case 7276: UNIQUE constraint failed: cases.case_number
+- Error migrating case 7772: UNIQUE constraint failed: cases.case_number
+- Error migrating case 8146: UNIQUE constraint failed: cases.case_number
+- Error migrating case 8414: UNIQUE constraint failed: cases.case_number
+- Error migrating case 8431: UNIQUE constraint failed: cases.case_number
+- Error migrating case 8461: UNIQUE constraint failed: cases.case_number
+... and 41 more errors

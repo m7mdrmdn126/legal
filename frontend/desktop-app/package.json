@@ -1,0 +1,88 @@
+{
+  "name": "legal-cases-desktop",
+  "version": "1.0.0",
+  "description": "Legal Cases Management Desktop Application",
+  "main": "public/electron.js",
+  "author": "Legal Cases Team",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "react-hook-form": "^7.43.0",
+    "chart.js": "^4.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "dayjs": "^1.11.7",
+    "react-toastify": "^9.1.1",
+    "react-scripts": "5.0.1",
+    "electron-is-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "concurrently": "^7.6.0",
+    "wait-on": "^7.0.1"
+  },
+  "scripts": {
+    "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    "start-quiet": "GENERATE_SOURCEMAP=false NODE_NO_WARNINGS=1 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm run start-quiet\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-clean": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation\" npm run electron-dev",
+    "electron-pack": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --publish=never",
+    "build-windows": "npm run build && electron-builder --win",
+    "build-linux": "npm run build && electron-builder --linux",
+    "build-mac": "npm run build && electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.legalcases.desktop",
+    "productName": "Legal Cases Management",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "public/electron.js",
+      "public/preload.js",
+      ".env"
+    ],
+    "extraResources": [
+      ".env"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icon.icns"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

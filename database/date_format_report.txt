@@ -1,0 +1,34 @@
+============================================================
+تقرير تنسيق التواريخ في قاعدة البيانات
+DATABASE DATE FORMAT REPORT
+============================================================
+تاريخ التقرير: 2025-09-24 18:18:39 (ميلادي)
+قاعدة البيانات: latest_db.db
+
+إعدادات التاريخ المخزنة:
+Stored Date Settings:
+  date_calendar_type: gregorian
+    الوصف: Calendar system used: gregorian (ميلادي)
+    آخر تحديث: 2025-09-24T18:18:39.640337
+  date_format_updated: 2025-09-24T18:18:39.640519
+    الوصف: Last date when date formats were standardized to Gregorian
+    آخر تحديث: 2025-09-24T18:18:39.640522
+  date_locale: ar-SA-u-ca-gregory
+    الوصف: Date locale with explicit Gregorian calendar
+    آخر تحديث: 2025-09-24T18:18:39.640508
+
+نتائج فحص التواريخ:
+Date Validation Results:
+  إجمالي التواريخ المفحوصة: 0
+  التواريخ الصحيحة: 0
+  التواريخ غير الصحيحة: 0
+  التواريخ الفارغة: 0
+  الجداول المفحوصة: cases, case_sessions, case_notes, case_types, users
+
+عينات من التواريخ:
+Sample Dates:
+    خطأ في استعلام أحدث القضايا: no such table: cases
+
+    خطأ في استعلام أحدث الجلسات: no such table: case_sessions
+
+    خطأ في استعلام أحدث الملاحظات: no such table: case_notes

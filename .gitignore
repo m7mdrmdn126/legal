@@ -1,0 +1,211 @@
+# Legal Cases Management System - Git Ignore File
+
+# ================================
+# BACKEND (Python/FastAPI)
+# ================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Environment Files (keep templates)
+.env
+backend/.env
+!backend/.env.example
+!deployment/.env.production
+!deployment/.env.production.windows
+
+# Database Files (keep schema)
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+!database/schema.py
+
+# Logs
+*.log
+logs/
+backend/logs/
+C:\legal-cases\logs\
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# ================================
+# FRONTEND (Node.js/Electron)
+# ================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Frontend Build Output
+frontend/desktop-app/build/
+frontend/desktop-app/dist/
+*.tgz
+
+# Electron
+frontend/desktop-app/dist/
+frontend/desktop-app/out/
+frontend/desktop-app/release/
+
+# React
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ================================
+# DEVELOPMENT TOOLS
+# ================================
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ================================
+# DEPLOYMENT & BUILD
+# ================================
+
+# Build artifacts
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+
+# Keep deployment installers in specific location
+!deployment/releases/*.exe
+!deployment/releases/*.msi
+!deployment/releases/*.dmg
+
+# Backup Files
+*.backup
+*.bak
+*~
+.backup/
+backups/
+database/backups/
+C:\legal-cases\backups\
+
+# Temporary Files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# ================================
+# DOCUMENTATION
+# ================================
+
+# Keep documentation
+!docs/
+!*.md
+!deployment/*.md
+
+# ================================
+# SECURITY & SECRETS
+# ================================
+
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+secrets/
+.secrets/
+
+# Local Configuration
+config.local.*
+settings.local.*
+
+# ================================
+# SYSTEM & RUNTIME
+# ================================
+
+# Windows
+*.lnk
+*.url
+
+# Linux
+*.desktop
+
+# Runtime directories
+C:\legal-cases\
+/opt/legal-cases/
+
+# Process files
+*.pid
+
+# ================================
+# CUSTOM IGNORES
+# ================================
+
+# Custom user data
+user-data/
+client-configs/
+
+# Development testing
+test-data/
+sample-data/
+
+# Local network configurations
+network-config.local.*
