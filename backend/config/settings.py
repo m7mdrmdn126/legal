@@ -30,8 +30,15 @@ class Settings(BaseModel):
     date_calendar: str = "gregorian"  # Use Gregorian (ميلادي) calendar
     date_locale: str = "ar-SA"        # Arabic locale with Gregorian calendar
     
-    # CORS settings
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:8080"]
+    # CORS settings - Allow local network access
+    cors_origins: List[str] = [
+        "http://localhost:3000", 
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8080",
+        # Allow any local network IP (192.168.x.x, 10.x.x.x, 169.254.x.x)
+        "*"  # For development and local network access
+    ]
     
     def __init__(self, **kwargs):
         # Load from environment variables

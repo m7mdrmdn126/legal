@@ -39,14 +39,27 @@ app = FastAPI(
     redoc_url="/redoc" if settings.debug else None,
 )
 
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"],
-)
+# Configure CORS for local network access
+if settings.debug:
+    # Development mode - allow all origins for local network
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Allow all origins in debug mode
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
+    )
+    logger.info("CORS configured for development - allowing all origins")
+else:
+    # Production mode - use configured origins
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
+    )
+    logger.info(f"CORS configured for production - allowed origins: {settings.cors_origins}")
 
 # Global exception handler for validation errors
 @app.exception_handler(ValidationError)
