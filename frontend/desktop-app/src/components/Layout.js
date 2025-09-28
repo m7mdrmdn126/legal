@@ -34,6 +34,12 @@ const Layout = () => {
       roles: ['admin', 'user']
     },
     {
+      path: '/phone-directory',
+      icon: 'fas fa-phone-alt',
+      label: 'دليل التليفونات',
+      roles: ['admin', 'user']
+    },
+    {
       path: '/users',
       icon: 'fas fa-users',
       label: 'المستخدمين',

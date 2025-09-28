@@ -17,6 +17,7 @@ from routes.cases import router as cases_router
 from routes.case_sessions import router as case_sessions_router
 from routes.case_notes import router as case_notes_router
 from routes.stats import router as stats_router
+from routes.phone_directory import router as phone_directory_router
 # Phase 4 - Polish Features
 from routes.backup import router as backup_router
 from routes.export import router as export_router
@@ -116,13 +117,12 @@ app.include_router(cases_router, prefix="/api/v1")
 app.include_router(case_sessions_router, prefix="/api/v1")
 app.include_router(case_notes_router, prefix="/api/v1")
 app.include_router(stats_router, prefix="/api/v1")
-# Phase 4 - Polish Features
+app.include_router(phone_directory_router, prefix="/api/v1")
+# Phase 4 - Polish Features 
 app.include_router(backup_router, prefix="/api/v1")
 app.include_router(export_router, prefix="/api/v1")
 app.include_router(print_router, prefix="/api/v1")
-app.include_router(performance_router, prefix="/api/v1")
-
-# Root endpoint
+app.include_router(performance_router, prefix="/api/v1")# Root endpoint
 @app.get("/")
 async def root():
     """Root endpoint"""

@@ -13,6 +13,7 @@ import CasesList from './pages/CasesList';
 import CaseDetails from './pages/CaseDetails';
 import CaseForm from './pages/CaseForm';
 import CaseTypesManagement from './pages/CaseTypesManagement';
+import PhoneDirectory from './pages/PhoneDirectory';
 import UsersManagement from './pages/UsersManagement';
 // Phase 3 - Advanced Features
 import SessionsManagement from './pages/SessionsManagement';
@@ -90,6 +91,7 @@ const App = () => {
           <Route path="cases/new" element={<CaseForm />} />
           <Route path="cases/:id/edit" element={<CaseForm />} />
           <Route path="case-types" element={<CaseTypesManagement />} />
+          <Route path="phone-directory" element={<PhoneDirectory />} />
           <Route path="users" element={<UsersManagement />} />
           
           {/* Phase 3 Routes - Advanced Features */}

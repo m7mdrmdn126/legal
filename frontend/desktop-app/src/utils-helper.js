@@ -571,7 +571,7 @@ const formatShortDate = (dateString) => ArabicUtils.formatShortArabicDate(dateSt
 // EXPORT ALL UTILITIES
 // ====================================================================
 
-module.exports = {
+export {
   ArabicUtils,
   AuthUtils,
   APIUtils,

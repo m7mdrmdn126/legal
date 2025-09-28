@@ -116,6 +116,21 @@ def setup_test_database():
         );
         """)
         
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS phone_directory (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            الاسم TEXT,
+            الرقم TEXT,
+            الجهه TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            created_by INTEGER,
+            updated_by INTEGER,
+            FOREIGN KEY (created_by) REFERENCES users(id),
+            FOREIGN KEY (updated_by) REFERENCES users(id)
+        );
+        """)
+        
         # Create indexes
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_cases_case_number ON cases(case_number);")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_cases_case_type ON cases(case_type_id);")
@@ -123,6 +138,9 @@ def setup_test_database():
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_case_notes_case_id ON case_notes(case_id);")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_users_user_type ON users(user_type);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_phone_directory_name ON phone_directory(الاسم);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_phone_directory_number ON phone_directory(الرقم);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_phone_directory_organization ON phone_directory(الجهه);")
         
         # Insert default case types
         default_case_types = [

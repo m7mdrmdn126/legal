@@ -86,12 +86,34 @@ pids
 # Frontend Build Output
 frontend/desktop-app/build/
 frontend/desktop-app/dist/
+frontend/desktop-app/.next/
+frontend/desktop-app/.nuxt/
 *.tgz
 
-# Electron
+# Package Manager Lock Files (keep package-lock.json but ignore yarn.lock)
+yarn.lock
+pnpm-lock.yaml
+
+# Build Tools Cache
+.cache/
+.parcel-cache/
+.webpack/
+
+# Electron Desktop App Build Output
 frontend/desktop-app/dist/
 frontend/desktop-app/out/
 frontend/desktop-app/release/
+
+# Allow icon files in build-assets (these should be tracked)
+!frontend/desktop-app/build-assets/
+!frontend/desktop-app/build-assets/*.svg
+!frontend/desktop-app/build-assets/*.png
+!frontend/desktop-app/build-assets/*.ico
+!frontend/desktop-app/build-assets/*.icns
+
+# Electron Build Cache
+frontend/desktop-app/node_modules/.cache/
+frontend/desktop-app/.electron-builder-cache/
 
 # React
 .DS_Store
@@ -125,18 +147,34 @@ Desktop.ini
 # DEPLOYMENT & BUILD
 # ================================
 
-# Build artifacts
+# Desktop Application Build Artifacts
 *.exe
 *.msi
 *.dmg
 *.AppImage
 *.deb
 *.rpm
+*.snap
+*.flatpak
+*.tar.gz
+*.zip
 
-# Keep deployment installers in specific location
+# Distribution Files
+frontend/desktop-app/dist/*.exe
+frontend/desktop-app/dist/*.AppImage
+frontend/desktop-app/dist/*.dmg
+frontend/desktop-app/dist/*.msi
+frontend/desktop-app/dist/*.deb
+frontend/desktop-app/dist/*.rpm
+frontend/desktop-app/dist/win-unpacked/
+frontend/desktop-app/dist/linux-unpacked/
+frontend/desktop-app/dist/mac/
+
+# Keep deployment installers in specific location only
 !deployment/releases/*.exe
 !deployment/releases/*.msi
 !deployment/releases/*.dmg
+!deployment/releases/*.AppImage
 
 # Backup Files
 *.backup
@@ -196,6 +234,36 @@ C:\legal-cases\
 *.pid
 
 # ================================
+# DESKTOP APPLICATION SPECIFIC
+# ================================
+
+# Electron Builder Generated Files
+frontend/desktop-app/dist/
+frontend/desktop-app/.electron-builder-cache/
+
+# Build Scripts Output
+frontend/desktop-app/build-*.log
+frontend/desktop-app/electron-builder-*.log
+
+# Desktop App Distribution
+*.AppImage
+*.exe
+*.dmg
+*.deb
+*.rpm
+*.snap
+
+
+
+# ================================
+# PHONE DIRECTORY FEATURE
+# ================================
+
+# Phone Directory Test Data
+**/phone_directory_test.db
+backend/testing/phone_directory_*.py.bak
+
+# ================================
 # CUSTOM IGNORES
 # ================================
 
@@ -209,3 +277,13 @@ sample-data/
 
 # Local network configurations
 network-config.local.*
+
+# Build and Distribution Checksums
+*.md5
+*.sha256
+*.sha1
+
+# Temporary Build Files
+*.tmp.js
+*.tmp.css
+*.tmp.html

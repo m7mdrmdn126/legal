@@ -34,16 +34,22 @@
     "electron-dev": "concurrently \"npm run start-quiet\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-clean": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation\" npm run electron-dev",
     "electron-pack": "npm run build && electron-builder",
+    "electron-pack-win": "npm run build && electron-builder --win --x64",
+    "electron-pack-linux": "npm run build && electron-builder --linux --x64",
+    "electron-pack-mac": "npm run build && electron-builder --mac",
     "dist": "npm run build && electron-builder --publish=never",
+    "dist-all": "npm run build && electron-builder --win --linux --mac",
     "build-windows": "npm run build && electron-builder --win",
     "build-linux": "npm run build && electron-builder --linux",
     "build-mac": "npm run build && electron-builder --mac"
   },
   "build": {
     "appId": "com.legalcases.desktop",
-    "productName": "Legal Cases Management",
+    "productName": "نظام إدارة القضايا القانونية",
+    "copyright": "Copyright © 2024 Legal Cases Management System",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build-assets"
     },
     "files": [
       "build/**/*",
@@ -55,22 +61,52 @@
       ".env"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "public/icon.ico"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build-assets/icon.ico",
+      "artifactName": "Legal-Cases-Management-${version}-Windows-Setup.${ext}",
+      "publish": null
     },
     "linux": {
-      "target": "AppImage",
-      "icon": "public/icon.png"
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build-assets/icon.png",
+      "artifactName": "Legal-Cases-Management-${version}-Linux.${ext}",
+      "category": "Office",
+      "publish": null
     },
     "mac": {
-      "target": "dmg",
-      "icon": "public/icon.icns"
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build-assets/icon.icns",
+      "artifactName": "Legal-Cases-Management-${version}-macOS.${ext}",
+      "publish": null
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "installerIcon": "build-assets/icon.ico",
+      "uninstallerIcon": "build-assets/icon.ico",
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "shortcutName": "نظام إدارة القضايا القانونية",
+      "menuCategory": true,
+      "displayLanguageSelector": false
+    },
+    "appImage": {
     }
   },
   "browserslist": {

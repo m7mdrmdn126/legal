@@ -440,6 +440,50 @@ class ApiService {
   async performHealthCheck() {
     return this.get('/performance/health');
   }
+
+  // =============================================================
+  // PHONE DIRECTORY ENDPOINTS - دليل التليفونات
+  // =============================================================
+  
+  async getPhoneDirectoryEntries(filters = {}) {
+    const { 
+      page = 1, 
+      size = 10, 
+      search = '', 
+      الاسم = null,
+      الرقم = null,
+      الجهه = null
+    } = filters;
+    
+    return this.get('/phone-directory', {
+      page,
+      size,
+      search,
+      الاسم,
+      الرقم,
+      الجهه
+    });
+  }
+
+  async getPhoneDirectoryEntry(entryId) {
+    return this.get(`/phone-directory/${entryId}`);
+  }
+
+  async createPhoneDirectoryEntry(entryData) {
+    return this.post('/phone-directory', entryData);
+  }
+
+  async updatePhoneDirectoryEntry(entryId, updateData) {
+    return this.put(`/phone-directory/${entryId}`, updateData);
+  }
+
+  async deletePhoneDirectoryEntry(entryId) {
+    return this.delete(`/phone-directory/${entryId}`);
+  }
+
+  async searchPhoneDirectoryEntries(searchData) {
+    return this.post('/phone-directory/search', searchData);
+  }
 }
 
 // Create singleton instance
