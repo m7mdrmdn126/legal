@@ -2,23 +2,57 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 import jwt
+import hashlib
+import platform
 from config.settings import settings
 
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Password hashing context with cross-platform compatibility
+pwd_context = CryptContext(
+    schemes=["bcrypt"], 
+    deprecated="auto",
+    bcrypt__rounds=12  # Explicit rounds for consistency
+)
 
 class AuthUtils:
-    """Authentication utilities"""
+    """Authentication utilities with bcrypt 72-byte limit handling"""
     
     @staticmethod
     def hash_password(password: str) -> str:
-        """Hash password using bcrypt"""
-        return pwd_context.hash(password)
+        """Hash password using bcrypt with 72-byte limit handling"""
+        try:
+            # Convert to bytes to check actual byte length
+            password_bytes = password.encode('utf-8')
+            
+            # If password is longer than 72 bytes, pre-hash with SHA-256
+            if len(password_bytes) > 72:
+                password = hashlib.sha256(password_bytes).hexdigest()
+            
+            return pwd_context.hash(password)
+        except Exception as e:
+            print(f"Error hashing password on {platform.system()}: {e}")
+            raise e
     
     @staticmethod
     def verify_password(plain_password: str, hashed_password: str) -> bool:
-        """Verify password against hash"""
-        return pwd_context.verify(plain_password, hashed_password)
+        """Verify password against hash with bcrypt 72-byte limit handling"""
+        try:
+            # Convert to bytes to check actual byte length
+            password_bytes = plain_password.encode('utf-8')
+            
+            # If password is longer than 72 bytes, pre-hash with SHA-256
+            if len(password_bytes) > 72:
+                plain_password = hashlib.sha256(password_bytes).hexdigest()
+                
+            return pwd_context.verify(plain_password, hashed_password)
+        except ValueError as e:
+            if "password cannot be longer than 72 bytes" in str(e):
+                print(f"Password too long error on {platform.system()}: {e}")
+                return False
+            print(f"Password verification error: {e}")
+            return False
+        except Exception as e:
+            print(f"Unexpected password verification error on {platform.system()}: {e}")
+            return False
     
     @staticmethod
     def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
