@@ -22,16 +22,21 @@
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",
     "concurrently": "^7.6.0",
-    "wait-on": "^7.0.1"
+    "wait-on": "^7.0.1",
+    "cross-env": "^7.0.3"
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "start-quiet": "GENERATE_SOURCEMAP=false NODE_NO_WARNINGS=1 react-scripts start",
+    "start-win": "cross-env GENERATE_SOURCEMAP=false react-scripts start",
+    "start-quiet-win": "cross-env GENERATE_SOURCEMAP=false NODE_NO_WARNINGS=1 react-scripts start",
     "build": "GENERATE_SOURCEMAP=false PUBLIC_URL=./ react-scripts build",
+    "build-win": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=./ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
     "electron-dev": "concurrently \"npm run start-quiet\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-dev-win": "concurrently \"npm run start-quiet-win\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-clean": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation\" npm run electron-dev",
     "electron-pack": "npm run build && electron-builder",
     "electron-pack-win": "npm run build && electron-builder --win --x64",
@@ -41,7 +46,10 @@
     "dist-all": "npm run build && electron-builder --win --linux --mac",
     "build-windows": "npm run build && electron-builder --win",
     "build-linux": "npm run build && electron-builder --linux",
-    "build-mac": "npm run build && electron-builder --mac"
+    "build-mac": "npm run build && electron-builder --mac",
+    "start:win": "set GENERATE_SOURCEMAP=false && react-scripts start",
+    "build:win": "set GENERATE_SOURCEMAP=false && set PUBLIC_URL=./ && react-scripts build",
+    "electron-dev:win": "concurrently \"npm run start:win\" \"wait-on http://localhost:3000 && electron .\""
   },
   "build": {
     "appId": "com.legalcases.desktop",

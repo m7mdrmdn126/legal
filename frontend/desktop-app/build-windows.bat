@@ -1,7 +1,13 @@
 @echo off
-REM Legal Cases Desktop App - Windows Build Script
+REM Legal Cases Desktop App - Windows Build Script (Optimized)
 
 echo Building Legal Cases Desktop App for Windows...
+echo.
+
+REM Set Windows environment variables
+set GENERATE_SOURCEMAP=false
+set PUBLIC_URL=./
+set NODE_NO_WARNINGS=1
 
 REM Check if Node.js and npm are installed
 where node >nul 2>nul
