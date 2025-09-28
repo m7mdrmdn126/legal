@@ -7,6 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 
+// Detect if running in Electron and add body class
+if (window.electron || window.process?.type === 'renderer') {
+  document.body.classList.add('electron-app');
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

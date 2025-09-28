@@ -1,17 +1,24 @@
 // Dashboard.js - Main dashboard based on GET /stats/dashboard endpoint
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 import apiService from '../services/api';
 import { formatDate, formatShortDate } from '../utils-helper';
+import useElectronChartResize from '../hooks/useElectronChartResize';
+import '../styles/electron-charts.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const judgmentChartRef = useRef(null);
+  const caseTypesChartRef = useRef(null);
+
+  // Use custom hook for Electron chart resizing
+  useElectronChartResize([judgmentChartRef, caseTypesChartRef], [stats]);
 
   useEffect(() => {
     loadDashboardStats();
@@ -168,16 +175,25 @@ const Dashboard = () => {
                 حالة القضايا
               </h5>
             </div>
-            <div className="card-body">
+            <div className="card-body chart-container pie-chart-container">
               {judgmentChartData && (
                 <Pie 
+                  ref={judgmentChartRef}
                   data={judgmentChartData}
                   options={{
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                       legend: {
                         position: 'bottom',
                       }
+                    },
+                    // Electron-specific optimizations
+                    animation: {
+                      duration: 0
+                    },
+                    layout: {
+                      padding: 10
                     }
                   }}
                 />
@@ -195,12 +211,14 @@ const Dashboard = () => {
                 أنواع القضايا
               </h5>
             </div>
-            <div className="card-body">
+            <div className="card-body chart-container bar-chart-container">
               {caseTypesChartData && (
                 <Bar 
+                  ref={caseTypesChartRef}
                   data={caseTypesChartData}
                   options={{
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                       legend: {
                         display: false
@@ -218,6 +236,13 @@ const Dashboard = () => {
                           }
                         }
                       }
+                    },
+                    // Electron-specific optimizations
+                    animation: {
+                      duration: 0
+                    },
+                    layout: {
+                      padding: 10
                     }
                   }}
                 />

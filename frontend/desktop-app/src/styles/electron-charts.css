@@ -1,0 +1,88 @@
+/* Electron-specific chart optimizations */
+
+/* Ensure chart containers have proper dimensions */
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  min-height: 300px;
+}
+
+/* Prevent chart canvas from disappearing during resize */
+.chart-container canvas {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Card body containing charts */
+.card-body:has(canvas) {
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Force hardware acceleration for better performance in Electron */
+canvas {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Prevent layout shifts during resize */
+.card:has(.chart-container) {
+  min-height: 450px;
+}
+
+/* Ensure proper aspect ratio maintenance */
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 60%; /* 16:10 aspect ratio */
+}
+
+.chart-wrapper canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Fix for electron window state changes */
+body.electron-app canvas {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000;
+  -webkit-perspective: 1000;
+}
+
+/* Ensure charts are visible after window restore */
+.card-body.chart-container {
+  overflow: visible;
+  position: relative;
+}
+
+/* Specific fixes for pie charts in Electron */
+.pie-chart-container {
+  width: 100% !important;
+  height: 300px !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Specific fixes for bar charts in Electron */
+.bar-chart-container {
+  width: 100% !important;
+  height: 400px !important;
+  position: relative;
+}
+
+/* Force repaint on hover to prevent disappearing */
+.card:hover canvas {
+  transform: translateZ(0);
+}

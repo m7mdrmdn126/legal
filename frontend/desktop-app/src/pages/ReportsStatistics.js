@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import {
   Chart as ChartJS,
@@ -13,6 +13,8 @@ import {
 import { Bar, Pie } from 'react-chartjs-2';
 import apiService from '../services/api';
 import { formatShortDate } from '../utils-helper';
+import useElectronChartResize from '../hooks/useElectronChartResize';
+import '../styles/electron-charts.css';
 
 ChartJS.register(
   CategoryScale,
@@ -28,11 +30,17 @@ const ReportsStatistics = () => {
   const [loading, setLoading] = useState(false);
   const [dashboardStats, setDashboardStats] = useState(null);
   const [detailedStats, setDetailedStats] = useState(null);
+  const caseTypeChartRef = useRef(null);
+  const judgmentChartRef = useRef(null);
+  const trendChartRef = useRef(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [dateRange, setDateRange] = useState({
     start_date: '',
     end_date: ''
   });
+
+  // Use custom hook for Electron chart resizing
+  useElectronChartResize([caseTypeChartRef, judgmentChartRef, trendChartRef], [dashboardStats]);
 
   useEffect(() => {
     loadDashboardStats();
@@ -209,6 +217,7 @@ const ReportsStatistics = () => {
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
@@ -218,10 +227,18 @@ const ReportsStatistics = () => {
         text: 'إحصائيات القضايا',
       },
     },
+    // Electron-specific optimizations
+    animation: {
+      duration: 0
+    },
+    layout: {
+      padding: 10
+    }
   };
 
   const barChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
@@ -242,6 +259,13 @@ const ReportsStatistics = () => {
           }
         }
       }
+    },
+    // Electron-specific optimizations
+    animation: {
+      duration: 0
+    },
+    layout: {
+      padding: 10
     }
   };
 
@@ -491,9 +515,9 @@ const ReportsStatistics = () => {
                   <div className="card-header">
                     <h6 className="card-title mb-0">توزيع القضايا حسب النوع</h6>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body chart-container pie-chart-container">
                     {dashboardStats?.cases_by_type?.length > 0 ? (
-                      <Pie data={casesByTypeChartData} options={chartOptions} />
+                      <Pie ref={caseTypeChartRef} data={casesByTypeChartData} options={chartOptions} />
                     ) : (
                       <div className="text-center py-4 text-muted">
                         لا توجد بيانات لعرضها
@@ -508,9 +532,9 @@ const ReportsStatistics = () => {
                   <div className="card-header">
                     <h6 className="card-title mb-0">توزيع القضايا حسب نوع الحكم</h6>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body chart-container pie-chart-container">
                     {dashboardStats?.cases_by_judgment?.length > 0 ? (
-                      <Pie data={casesByJudgmentChartData} options={chartOptions} />
+                      <Pie ref={judgmentChartRef} data={casesByJudgmentChartData} options={chartOptions} />
                     ) : (
                       <div className="text-center py-4 text-muted">
                         لا توجد بيانات لعرضها
@@ -570,9 +594,9 @@ const ReportsStatistics = () => {
                   <div className="card-header">
                     <h6 className="card-title mb-0">الاتجاهات الشهرية للقضايا</h6>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body chart-container bar-chart-container">
                     {dashboardStats?.monthly_trend?.length > 0 ? (
-                      <Bar data={monthlyTrendChartData} options={barChartOptions} />
+                      <Bar ref={trendChartRef} data={monthlyTrendChartData} options={barChartOptions} />
                     ) : (
                       <div className="text-center py-4 text-muted">
                         لا توجد بيانات اتجاهات شهرية
