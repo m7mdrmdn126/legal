@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Electron App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Electron App Test</h1>
+        <p>If you can see this page, your Electron app is working!</p>
+        
+        <div class="info">
+            <strong>Environment Info:</strong><br>
+            User Agent: <span id="userAgent"></span><br>
+            Platform: <span id="platform"></span><br>
+            Current Time: <span id="currentTime"></span>
+        </div>
+        
+        <button onclick="testElectronAPI()">Test Electron API</button>
+        
+        <div id="apiResult"></div>
+    </div>
+
+    <script>
+        // Fill in environment info
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('platform').textContent = navigator.platform;
+        document.getElementById('currentTime').textContent = new Date().toLocaleString();
+        
+        // Test Electron API
+        async function testElectronAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            try {
+                if (window.electronAPI) {
+                    const config = await window.electronAPI.getAppConfig();
+                    resultDiv.innerHTML = `
+                        <div class="info">
+                            <strong>✅ Electron API Working!</strong><br>
+                            Server IP: ${config.serverIp}<br>
+                            Server Port: ${config.serverPort}<br>
+                            App Name: ${config.appName}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="info"><strong>⚠️ Electron API not available</strong></div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="info"><strong>❌ Error:</strong> ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-test on load
+        setTimeout(testElectronAPI, 1000);
+    </script>
+</body>
+</html>

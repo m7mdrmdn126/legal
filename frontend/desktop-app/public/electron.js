@@ -146,13 +146,16 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      webSecurity: true,
+      webSecurity: false, // Disable web security for production builds
+      allowRunningInsecureContent: true,
       preload: path.join(__dirname, 'preload.js'),
       // Fix for SharedImageManager errors
       offscreen: false,
       backgroundThrottling: false
     },
-    icon: path.join(__dirname, 'favicon.ico'),
+    icon: fs.existsSync(path.join(__dirname, 'favicon.ico')) 
+      ? path.join(__dirname, 'favicon.ico')
+      : undefined,
     show: false,
     titleBarStyle: 'default'
   });
@@ -162,7 +165,24 @@ function createWindow() {
     ? 'http://localhost:3000' 
     : `file://${path.join(__dirname, '../build/index.html')}`;
   
-  mainWindow.loadURL(startUrl);
+  console.log('Loading URL:', startUrl);
+  console.log('isDev:', isDev);
+  console.log('__dirname:', __dirname);
+  
+  mainWindow.loadURL(startUrl).catch(error => {
+    console.error('Failed to load URL:', error);
+    // Try alternative path for production builds
+    if (!isDev) {
+      const altUrl = `file://${path.join(process.resourcesPath, 'app/build/index.html')}`;
+      console.log('Trying alternative URL:', altUrl);
+      mainWindow.loadURL(altUrl);
+    }
+  });
+
+  // Add error handling for web contents
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Failed to load:', errorCode, errorDescription);
+  });
 
   // Show window when ready to prevent visual flash
   mainWindow.once('ready-to-show', () => {
@@ -172,6 +192,11 @@ function createWindow() {
     if (isDev) {
       mainWindow.webContents.openDevTools();
     }
+  });
+
+  // Add console message handling
+  mainWindow.webContents.on('console-message', (event, level, message) => {
+    console.log('Renderer console:', level, message);
   });
 
   // Emitted when the window is closed
