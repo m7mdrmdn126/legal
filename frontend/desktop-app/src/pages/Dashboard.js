@@ -210,7 +210,12 @@ const Dashboard = () => {
                       y: {
                         beginAtZero: true,
                         ticks: {
-                          stepSize: 1
+                          maxTicksLimit: 10,
+                          // Remove stepSize: 1 to let Chart.js auto-calculate appropriate intervals
+                          callback: function(value) {
+                            // Only show integer values
+                            return Number.isInteger(value) ? value : '';
+                          }
                         }
                       }
                     }

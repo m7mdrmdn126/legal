@@ -220,6 +220,31 @@ const ReportsStatistics = () => {
     },
   };
 
+  const barChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'الاتجاهات الشهرية للقضايا',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          maxTicksLimit: 10,
+          callback: function(value) {
+            // Only show integer values
+            return Number.isInteger(value) ? value : '';
+          }
+        }
+      }
+    }
+  };
+
   if (loading && !dashboardStats) {
     return (
       <div className="container-fluid py-4">
@@ -547,7 +572,7 @@ const ReportsStatistics = () => {
                   </div>
                   <div className="card-body">
                     {dashboardStats?.monthly_trend?.length > 0 ? (
-                      <Bar data={monthlyTrendChartData} options={chartOptions} />
+                      <Bar data={monthlyTrendChartData} options={barChartOptions} />
                     ) : (
                       <div className="text-center py-4 text-muted">
                         لا توجد بيانات اتجاهات شهرية
